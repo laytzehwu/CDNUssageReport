@@ -2,7 +2,9 @@
  * View for CDN ussage report
  * By right it should take place of the presentation but dual to limited time. It only some templating function
 */
-var CDNUssageView = (function () {
+var CDNUssageReport = CDNUssageReport || {};
+CDNUssageReport.Views = CDNUssageReport.Views || {};
+CDNUssageReport.Views.UssageView = (function () {
 	return {
 		renderRow: function () {
 			throw new Error("Not yet impletemented!");

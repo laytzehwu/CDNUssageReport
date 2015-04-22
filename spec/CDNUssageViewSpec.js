@@ -1,11 +1,11 @@
 describe("CDNUssageView Spec", function () {
 	it("Render ussage row properly", function () {
-		CDNUssageView.renderRow();
+		CDNUssageReport.Views.UssageView.renderRow();
 	})
 	it("Render ussage detail", function () {
-		CDNUssageView.renderDetailDialog();
+		CDNUssageReport.Views.UssageView.renderDetailDialog();
 	})
 	it("Render ussage list", function () {
-		CDNUssageView.renderList();
+		CDNUssageReport.Views.UssageView.renderList();
 	})
 });

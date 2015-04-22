@@ -1,9 +1,13 @@
 /**
  * Model for CDN ussage report. 
  * It receives sequential data of a case and organize to its properties
- * Provides bytes and request cache calculation for convenience. It sound like digressing from a simple model. But it do help in next module
+ * Provides bytes and request cache calculation for convenience. It sound like digressing from a simple model. But it do help in next module.
+ * Dual to the bad data structure [resource, publisher, edge, bytesCached, bytesNotCached, requestsCached, requestsNotCached]. The models constructor is coded with hard limited.
+ * New models with be introduced if the backend api change its data structure
 */
-function CDNUssageModel(data) {
+var CDNUssageReport = CDNUssageReport || {};
+CDNUssageReport.Models = CDNUssageReport.Models || {};
+CDNUssageReport.Models.UseCaseModel = function (data) {
     if(!data) {
         throw new Error("No/Empty data passed in!");
     }
