@@ -8,6 +8,7 @@ body {
 header, footer {
 	color: #fff;
 }
+
 header, footer a {
 	color: #fff;
 }
@@ -16,10 +17,34 @@ section {
 	border: none;
 	background-color: #fff;
 	padding: 5px;
+	color: #111;
 }
+
 footer {
   position: absolute;
   bottom: 0;
+}
+
+.grid {
+	display: table;
+	border: 1px solid #111;
+}
+
+.grid-header {
+	display: table-row;
+	
+}
+.grid-row {
+	display: table-row;
+}
+
+.grid-cell {
+	display: table-cell;
+	font-weight: normal;
+}
+
+.grid-header .grid-cell {
+	font-weight: bold;
 }
 
 @media screen and (min-width: 992px) {
