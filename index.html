@@ -1,13 +1,21 @@
 <!DOCTYPE HTML>
 <html lang="en">
  <head>
-  <title>Demo: CDN ussage report</title>
+  <title>Demo: CDN Usage report</title>
   <link href="assets/style.css" rel="stylesheet" type="text/css">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <!-- 
+   These javascript files should monify and urglfy into 1 file when they really go to production.
+   -->
+  <script type="text/javascript" src="src/CDNUsageModel.js"></script>
+  <script type="text/javascript" src="src/CDNUsageView.js"></script>
+  <script type="text/javascript" src="src/CDNUsage.js"></script>
  </head>
  <body>
   <header>
-   <h1>CDN ussage report</h1>
+   <h1>CDN usage report</h1>
   </header>
+  <nav class="top-menu"></nav>
   <section>
    <div class="tabs-plate"></div>
    <div class="content">Loading ... </div>
@@ -16,4 +24,10 @@
     Provided by <a href="mailto:laytzehwu@yahoo.com">Lay</a>
   </footer>
  </body>
+ <script>
+  CDNUsageReport.init({
+     menu: "nav",
+     content: "div.content"
+  });
+ </script>
 </html>

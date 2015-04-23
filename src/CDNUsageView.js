@@ -2,9 +2,9 @@
  * View for CDN ussage report
  * By right it should take place of the presentation but dual to limited time. It only some templating function
 */
-var CDNUssageReport = CDNUssageReport || {};
-CDNUssageReport.Views = CDNUssageReport.Views || {};
-CDNUssageReport.Views.Menu = (function () {
+var CDNUsageReport = CDNUsageReport || {};
+CDNUsageReport.Views = CDNUsageReport.Views || {};
+CDNUsageReport.Views.Menu = (function () {
     var cache = {};    
     var methods = {};
     methods.clear = function () {
@@ -100,20 +100,22 @@ CDNUssageReport.Views.Menu = (function () {
     };
 })();
 
-CDNUssageReport.Views.UssageView = (function () {
+CDNUsageReport.Views.UssageView = (function () {
 	var defaultColumnsSetting = {	resource: true,
 					publisher: true,
 					edge: true,
 					bytesCached: true,
 					requestCached: true
 				};
+
 	var labels = {
-		resource: "Resource",
-		publisher: "Website",
+		resource: "Website",
+		publisher: "User",
 		edge: "Edge Server",
 		bytesCached: "Bytes Cached",
 		requestCached: "Request Cached"
 	}
+
 	return {
 		getLabels: function () {
 			return labels;
