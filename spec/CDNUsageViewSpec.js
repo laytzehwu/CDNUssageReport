@@ -1,3 +1,79 @@
+describe("Menu Spec", function () {
+    var Menu = CDNUssageReport.Views.Menu;
+    var mockObj = null;
+    beforeEach(function () {
+        mockObj = {
+            clickEvent: function () {}
+        }
+        spyOn(mockObj, 'clickEvent');
+    });
+
+    afterEach(function() {
+        Menu.clear();
+        $("nav").remove();
+        $(".mobile-menu-toggle").remove();
+    });
+
+    it("Menu bar will be created when it is not existed", function () {
+        expect($("nav").length).toEqual(0);
+        Menu.init();
+        expect($("nav").length).toEqual(1);
+    });
+
+    it("Menu bar will not be created when we pass one to it", function () {
+        var $bar = $("<div></div>");
+        Menu.init($bar);
+        expect($("nav").length).toEqual(0);
+        expect($bar.find(".mobile-menu-toggle").length).toEqual(1);
+    });
+
+    it("Error raise when add item without info", function () {
+        var $bar = $("<div></div>");
+        Menu.init($bar);
+        expect(function () {
+            Menu.addItem();
+        }).toThrowError("Nothing pass-in when create menu item.");
+
+    });
+
+    it("Create menu item with only label", function () {
+        var $bar = $("<div></div>");
+        Menu.init($bar);
+        Menu.addItem({label: "Home"});
+        var $items = $bar.find("li");
+        expect($items.length).toEqual(1);
+        expect($items.find('a').length).toEqual(0);
+        expect($bar.find("li").text()).toEqual("Home");
+    });
+
+    it("Create menu item with link", function () {
+        var $bar = $("<div></div>");
+        Menu.init($bar);
+        Menu.addItem({label: "Home", href: "#"});
+        var $items = $bar.find("li");
+        expect($items.length).toEqual(1);
+        expect($items.find('a').length).toEqual(1);
+        var $link = $items.find('a');
+        expect($link.attr("href")).toEqual("#");
+        expect($bar.find("li").text()).toEqual("Home");
+    });
+    
+    it("Create menu item with link", function () {
+        var $bar = $("<div></div>");
+        Menu.init($bar);
+        Menu.addItem({label: "Home", href: "#", click: mockObj.clickEvent});
+        var $items = $bar.find("li");
+        expect($items.length).toEqual(1);
+        expect($items.find('a').length).toEqual(1);
+        var $link = $items.find('a');
+        expect($link.attr("href")).toEqual("#");
+        expect($bar.find("li").text()).toEqual("Home");
+        $link.click();
+        expect(mockObj.clickEvent).toHaveBeenCalled();
+    })
+
+
+});
 describe("UssageView Spec", function () {
 	var UseCaseModel = CDNUssageReport.Models.UseCaseModel;
 	it("Render full columns header", function () {

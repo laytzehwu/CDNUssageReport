@@ -65,9 +65,9 @@ CDNUssageReport.Models.UseCaseModel = function (data) {
 
     this.isFullyCached = CDNUssageReport.Models.Abstract.isFullyCached;
 
-   this.getRequestCachePercentage = CDNUssageReport.Models.Abstract.getRequestCachePercentage;
+    this.getRequestCachePercentage = CDNUssageReport.Models.Abstract.getRequestCachePercentage;
 
-   this.isRequestFullyCached = CDNUssageReport.Models.Abstract.isRequestFullyCached;
+    this.isRequestFullyCached = CDNUssageReport.Models.Abstract.isRequestFullyCached;
 }
 
 CDNUssageReport.Models.Statistic = function (list) {
@@ -136,5 +136,13 @@ CDNUssageReport.Models.Statistic = function (list) {
     if(edgeId > 0) {
         this.edgeId = edgeId;
     }
+
+    this.getCachedPercentage = CDNUssageReport.Models.Abstract.getCachedPercentage;
+
+    this.isFullyCached = CDNUssageReport.Models.Abstract.isFullyCached;
+
+    this.getRequestCachePercentage = CDNUssageReport.Models.Abstract.getRequestCachePercentage;
+
+    this.isRequestFullyCached = CDNUssageReport.Models.Abstract.isRequestFullyCached;
 
 }

@@ -4,6 +4,102 @@
 */
 var CDNUssageReport = CDNUssageReport || {};
 CDNUssageReport.Views = CDNUssageReport.Views || {};
+CDNUssageReport.Views.Menu = (function () {
+    var cache = {};    
+    var methods = {};
+    methods.clear = function () {
+        cache.$mobileToggleSwitch.remove();
+        cache.$itemHolder.remove();
+        cache.$menuBar.empty();
+        cache = {};
+    }
+    
+    methods.isMobileMenuOn = function () {
+        return cache.$itemHolder.hasClass("mobile-on");
+    }
+
+    methods.hideMobileMenu = function () {
+        cache.$mobileToggleSwitch.text(">");
+        cache.$itemHolder.removeClass("mobile-on");
+    }
+    
+    methods.showMobileMenu = function () {
+        cache.$mobileToggleSwitch.text("X");
+        cache.$itemHolder.addClass("mobile-on");
+    }
+
+    methods.createMobileToggleSwitch = function () {
+        if(cache.mobileToggleSwitch) {
+            return;
+        }
+        cache.$mobileToggleSwitch = $("<div class='mobile-menu-toggle'> > </div>");
+        cache.$menuBar.append(cache.$mobileToggleSwitch);
+        cache.$mobileToggleSwitch.on("click", function () {
+             if(methods.isMobileMenuOn()) {
+                  methods.hideMobileMenu();
+             } else {
+                  methods.showMobileMenu();
+             }
+        });
+    }
+
+    methods.initMenu = function () {
+        cache.$menuBar.empty();
+        cache.$itemHolder = $("<ul class='menu'></ul>");
+        cache.$menuBar.append(cache.$itemHolder);
+        methods.createMobileToggleSwitch();
+    }
+    methods.setMenuPlace = function (menu) {
+       cache.$menuBar = $(menu);
+       methods.initMenu();
+    }
+
+    methods.buildMenuBar = function () {
+        if(cache.$menuBar) {
+            return;
+        }
+        var $bar = $("<nav></nav>");
+        $("body").prepend($bar);
+        methods.setMenuPlace($bar);
+    }
+    
+
+    methods.addItem = function (info) {
+        if(!info) {
+            throw new Error("Nothing pass-in when create menu item.");
+        }
+        var $item = $("<span></span>");
+        $item.text(info.label);
+        if(info.href) {
+            $item = $("<a></a>").append($item);
+            $item.attr("href", info.href);
+        }
+        var $item = $("<li></li>").append($item);
+        $item.on("click", function (evt) {
+            methods.hideMobileMenu();
+            cache.$itemHolder.find(".active").removeClass("active");
+            $item.addClass("active");
+            if(info.click) {
+                info.click(evt);
+            }
+            
+        });
+        cache.$itemHolder.append($item);
+    }
+
+    return {
+       init: function (menu) {
+           if(menu) {
+               methods.setMenuPlace(menu);
+           } else {
+               methods.buildMenuBar();
+           }
+       },
+       clear: methods.clear,
+       addItem: methods.addItem
+    };
+})();
+
 CDNUssageReport.Views.UssageView = (function () {
 	var defaultColumnsSetting = {	resource: true,
 					publisher: true,
@@ -78,12 +174,12 @@ CDNUssageReport.Views.UssageView = (function () {
 			}
 			if(option.columns.bytesCached) {
 				var $cell = $("<div class='grid-cell'></div>");
-				$cell.text(useCase.getCachedPercentage() + "%");
+				$cell.text(useCase.getCachedPercentage().toLocaleString() + "%");
 				$row.append($cell);
 			}
 			if(option.columns.requestCached) {
 				var $cell = $("<div class='grid-cell'></div>");
-				$cell.text(useCase.getRequestCachePercentage() + "%");
+				$cell.text(useCase.getRequestCachePercentage().toLocaleString() + "%");
 				$row.append($cell);
 			}
 
@@ -95,7 +191,7 @@ CDNUssageReport.Views.UssageView = (function () {
 				option.columns = defaultColumnsSetting;
 			}
 			var $table = $("<div class='grid'></div>");
-			if(option.columns.resource) {
+			if(option.columns.resource && useCase.resourceId) {
 				var $row = $("<div class='grid-row'></div>");
 				var $cell = $("<div class='grid-cell'></div>");
 				$cell.text(labels.resource);
@@ -106,7 +202,7 @@ CDNUssageReport.Views.UssageView = (function () {
 				$table.append($row);
 			}
 
-			if(option.columns.publisher) {
+			if(option.columns.publisher && useCase.publisherId) {
 				var $row = $("<div class='grid-row'></div>");
 				var $cell = $("<div class='grid-cell'></div>");
 				$cell.text(labels.publisher);
@@ -117,7 +213,7 @@ CDNUssageReport.Views.UssageView = (function () {
 				$table.append($row);
 			}
 
-			if(option.columns.edge) {
+			if(option.columns.edge && useCase.edgeId) {
 				var $row = $("<div class='grid-row'></div>");
 				var $cell = $("<div class='grid-cell'></div>");
 				$cell.text(labels.edge);
@@ -134,7 +230,7 @@ CDNUssageReport.Views.UssageView = (function () {
 				$cell.text(labels.bytesCached);
 				$row.append($cell);
 				var $cell = $("<div class='grid-cell'></div>");
-				$cell.text(useCase.getCachedPercentage() + "%");
+				$cell.text(useCase.getCachedPercentage().toLocaleString() + "%");
 				$row.append($cell);
 				$table.append($row);
 			}
@@ -145,7 +241,7 @@ CDNUssageReport.Views.UssageView = (function () {
 				$cell.text(labels.requestCached);
 				$row.append($cell);
 				var $cell = $("<div class='grid-cell'></div>");
-				$cell.text(useCase.getRequestCachePercentage() + "%");
+				$cell.text(useCase.getRequestCachePercentage().toLocaleString() + "%");
 				$row.append($cell);
 				$table.append($row);
 			}
