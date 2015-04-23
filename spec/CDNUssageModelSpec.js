@@ -147,12 +147,12 @@ describe("Statistic spec", function () {
     });
 
     it("Same resource cases",function () {
-        var iLen = getRandomInt(1, 20);
+        var iLen = getRandomInt(2, 20);
         var useCases = [];
         var resourceId = getRandomInt(1000,9000);
         for(var i=0;i<iLen;i++) {
-	    var publisherId = getRandomInt(1000,9000);
-	    var edgeId = getRandomInt(1000,9000);
+	    var publisherId = 1000 + i;
+	    var edgeId = 2000 + i;
             var useCase = new CDNUssageReport.Models.UseCaseModel([resourceId, publisherId, edgeId, getRandomInt(0,100), getRandomInt(0,100), getRandomInt(0,100), getRandomInt(0,100)]);
             useCases.push(useCase);
         }        
@@ -164,12 +164,12 @@ describe("Statistic spec", function () {
     });
 
     it("Same publisher cases",function () {
-        var iLen = getRandomInt(1, 20);
+        var iLen = getRandomInt(2, 20);
         var useCases = [];
         var publisherId = getRandomInt(1000,9000);
         for(var i=0;i<iLen;i++) {
-	    var resourceId = getRandomInt(1000,9000);
-	    var edgeId = getRandomInt(1000,9000);
+	    var resourceId = 1000 + i;
+	    var edgeId = 2000 + i;
             var useCase = new CDNUssageReport.Models.UseCaseModel([resourceId, publisherId, edgeId, getRandomInt(0,100), getRandomInt(0,100), getRandomInt(0,100), getRandomInt(0,100)]);
             useCases.push(useCase);
         }        
@@ -181,12 +181,12 @@ describe("Statistic spec", function () {
     });
 
     it("Same edge cases",function () {
-        var iLen = getRandomInt(1, 20);
+        var iLen = getRandomInt(2, 20);
         var useCases = [];
         var edgeId = getRandomInt(1000,9000);
         for(var i=0;i<iLen;i++) {
-	    var resourceId = getRandomInt(1000,9000);
-	    var publisherId = getRandomInt(1000,9000);
+	    var resourceId = 1000 + i;
+	    var publisherId = 2000 + i;
             var useCase = new CDNUssageReport.Models.UseCaseModel([resourceId, publisherId, edgeId, getRandomInt(0,100), getRandomInt(0,100), getRandomInt(0,100), getRandomInt(0,100)]);
             useCases.push(useCase);
         }        
