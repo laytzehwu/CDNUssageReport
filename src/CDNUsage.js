@@ -1,6 +1,6 @@
-var CDNUssageReport = CDNUssageReport || {};
+var CDNUsageReport = CDNUsageReport || {};
 
-CDNUssageReport.util =(function () {
+CDNUsageReport.util =(function () {
     
     var cache = {};
 
@@ -13,8 +13,8 @@ CDNUssageReport.util =(function () {
         }
     };
 })();
-CDNUssageReport.cache = {};
-CDNUssageReport.showAbout = function () {
+CDNUsageReport.cache = {};
+CDNUsageReport.showAbout = function () {
     var me = this;
     $.ajax({
        url: "README.md",
@@ -24,22 +24,24 @@ CDNUssageReport.showAbout = function () {
     });
 }
 
-CDNUssageReport.showOverAll = function () {
+CDNUsageReport.showOverAll = function () {
     var me = this;
-    var statistic = new CDNUssageReport.Models.Statistic(me.cache.source);
-    var $statistic = CDNUssageReport.Views.UssageView.renderDetailDialog(statistic);
+    me.cache.displayList = me.cache.source;
+    var statistic = new CDNUsageReport.Models.Statistic(me.cache.displayList);
+    var $statistic = CDNUsageReport.Views.UssageView.renderDetailDialog(statistic);
     me.cache.$content.empty();
     me.cache.$content.append($statistic);
 }
 
-CDNUssageReport.showAllCases = function () {
+CDNUsageReport.showAllCases = function () {
     var me = this;
-    var $grids = CDNUssageReport.Views.UssageView.renderList(me.cache.source);
+    me.cache.displayList = me.cache.source;
+    var $grids = CDNUsageReport.Views.UssageView.renderList(me.cache.displayList);
     me.cache.$content.empty();
     me.cache.$content.append($grids);
 }
 
-CDNUssageReport.init = function (option) {
+CDNUsageReport.init = function (option) {
     var option = option || {};
     var methods = {};
     var me = this;
@@ -69,10 +71,10 @@ CDNUssageReport.init = function (option) {
          me.cache.$content = $(option.content);
     }
 
-    CDNUssageReport.Views.Menu.init(option.menu);
+    CDNUsageReport.Views.Menu.init(option.menu);
     $(settings.menuItems).each(function (index, item) {
         var $item = $({}).extend(item);// Clone the object
-	CDNUssageReport.Views.Menu.addItem($item);
+	CDNUsageReport.Views.Menu.addItem($item);
     });
 
     $(document).ready(function () {
@@ -81,7 +83,7 @@ CDNUssageReport.init = function (option) {
 
 }
 
-CDNUssageReport.start = function (api) {
+CDNUsageReport.start = function (api) {
     var me = this;
     $.ajax({
         url: api,

@@ -1,12 +1,12 @@
-describe("CDNUssageModel Spec", function () {
-    var UseCaseModel = CDNUssageReport.Models.UseCaseModel; 
-    it("Create CDNUssageModel without data", function () {
+describe("CDNUsageModel Spec", function () {
+    var UseCaseModel = CDNUsageReport.Models.UseCaseModel; 
+    it("Create CDNUsageModel without data", function () {
         expect(function () {
             new UseCaseModel()
         }).toThrowError("No/Empty data passed in!");
     });
 
-    it("Create CDNUssageModel with short of data", function () {
+    it("Create CDNUsageModel with short of data", function () {
         expect(function () {
             new UseCaseModel(1)
         }).toThrowError("Only accept array!");
@@ -29,7 +29,7 @@ describe("CDNUssageModel Spec", function () {
         
     });
 
-    it("Create CDNUssageModel with proper data", function () {
+    it("Create CDNUsageModel with proper data", function () {
 	var model = new UseCaseModel([63789283, 957505314, 7690037, 1501776752, 612004274, 5783, 2711]);
 	expect(model.resourceId).toEqual(63789283);
 	expect(model.publisherId).toEqual(957505314);
@@ -79,7 +79,7 @@ describe("CDNUssageModel Spec", function () {
 });
 
 describe("Statistic spec", function () {
-    var Statistic = CDNUssageReport.Models.Statistic; 
+    var Statistic = CDNUsageReport.Models.Statistic; 
     it("Pass in nothing is allowed!", function () {
 	var sample = new Statistic();
 	expect(sample.resourceId).toBeNull();	
@@ -94,7 +94,7 @@ describe("Statistic spec", function () {
     });
 
     it("Pass in only 1 use case", function () {
-        var useCase = new CDNUssageReport.Models.UseCaseModel([1,2,3,4,5,6,7]);
+        var useCase = new CDNUsageReport.Models.UseCaseModel([1,2,3,4,5,6,7]);
 	var sample = new Statistic([useCase]);
 	
 	expect(sample.resourceId).toEqual(useCase.resourceId);
@@ -122,7 +122,7 @@ describe("Statistic spec", function () {
 	    var resourceId = getRandomInt(1000,9000);
 	    var publisherId = getRandomInt(1000,9000);
 	    var edgeId = getRandomInt(1000,9000);
-            var useCase = new CDNUssageReport.Models.UseCaseModel([resourceId, publisherId, edgeId, getRandomInt(0,100), getRandomInt(0,100), getRandomInt(0,100), getRandomInt(0,100)]);
+            var useCase = new CDNUsageReport.Models.UseCaseModel([resourceId, publisherId, edgeId, getRandomInt(0,100), getRandomInt(0,100), getRandomInt(0,100), getRandomInt(0,100)]);
             bytesCached += useCase.bytesCached;
             bytesNotCached += useCase.bytesNotCached;
             requestsNotCached += useCase.requestsNotCached;
@@ -153,7 +153,7 @@ describe("Statistic spec", function () {
         for(var i=0;i<iLen;i++) {
 	    var publisherId = 1000 + i;
 	    var edgeId = 2000 + i;
-            var useCase = new CDNUssageReport.Models.UseCaseModel([resourceId, publisherId, edgeId, getRandomInt(0,100), getRandomInt(0,100), getRandomInt(0,100), getRandomInt(0,100)]);
+            var useCase = new CDNUsageReport.Models.UseCaseModel([resourceId, publisherId, edgeId, getRandomInt(0,100), getRandomInt(0,100), getRandomInt(0,100), getRandomInt(0,100)]);
             useCases.push(useCase);
         }        
         var sample = new Statistic(useCases);
@@ -170,7 +170,7 @@ describe("Statistic spec", function () {
         for(var i=0;i<iLen;i++) {
 	    var resourceId = 1000 + i;
 	    var edgeId = 2000 + i;
-            var useCase = new CDNUssageReport.Models.UseCaseModel([resourceId, publisherId, edgeId, getRandomInt(0,100), getRandomInt(0,100), getRandomInt(0,100), getRandomInt(0,100)]);
+            var useCase = new CDNUsageReport.Models.UseCaseModel([resourceId, publisherId, edgeId, getRandomInt(0,100), getRandomInt(0,100), getRandomInt(0,100), getRandomInt(0,100)]);
             useCases.push(useCase);
         }        
         var sample = new Statistic(useCases);
@@ -187,7 +187,7 @@ describe("Statistic spec", function () {
         for(var i=0;i<iLen;i++) {
 	    var resourceId = 1000 + i;
 	    var publisherId = 2000 + i;
-            var useCase = new CDNUssageReport.Models.UseCaseModel([resourceId, publisherId, edgeId, getRandomInt(0,100), getRandomInt(0,100), getRandomInt(0,100), getRandomInt(0,100)]);
+            var useCase = new CDNUsageReport.Models.UseCaseModel([resourceId, publisherId, edgeId, getRandomInt(0,100), getRandomInt(0,100), getRandomInt(0,100), getRandomInt(0,100)]);
             useCases.push(useCase);
         }        
         var sample = new Statistic(useCases);

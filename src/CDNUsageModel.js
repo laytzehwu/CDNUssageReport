@@ -5,32 +5,32 @@
  * Dual to the bad data structure [resource, publisher, edge, bytesCached, bytesNotCached, requestsCached, requestsNotCached]. The models constructor is coded with hard limited.
  * New models with be introduced if the backend api change its data structure
 */
-var CDNUssageReport = CDNUssageReport || {};
-CDNUssageReport.Models = CDNUssageReport.Models || {};
-CDNUssageReport.Models.Abstract = CDNUssageReport.Models.Abstract || {};
-CDNUssageReport.Models.Abstract.getCachedPercentage = function () {
+var CDNUsageReport = CDNUsageReport || {};
+CDNUsageReport.Models = CDNUsageReport.Models || {};
+CDNUsageReport.Models.Abstract = CDNUsageReport.Models.Abstract || {};
+CDNUsageReport.Models.Abstract.getCachedPercentage = function () {
     if((this.bytesCached === 0) && (this.bytesNotCached)) {
 	return 100;
     }
     return this.bytesCached / (this.bytesCached + this.bytesNotCached) * 100;
 }
 
-CDNUssageReport.Models.Abstract.isFullyCached = function () {
+CDNUsageReport.Models.Abstract.isFullyCached = function () {
     return !(this.bytesNotCached > 0);
 }
 
-CDNUssageReport.Models.Abstract.getRequestCachePercentage = function () {
+CDNUsageReport.Models.Abstract.getRequestCachePercentage = function () {
     if((this.requestsCached === 0) && (this.requestsNotCached)) {
 	return 100;
     }
     return this.requestsCached / (this.requestsCached + this.requestsNotCached) * 100;
 }
 
-CDNUssageReport.Models.Abstract.isRequestFullyCached = function () {
+CDNUsageReport.Models.Abstract.isRequestFullyCached = function () {
     return !(this.requestsNotCached > 0);
 }
 
-CDNUssageReport.Models.UseCaseModel = function (data) {
+CDNUsageReport.Models.UseCaseModel = function (data) {
     if(!data) {
         throw new Error("No/Empty data passed in!");
     }
@@ -61,16 +61,16 @@ CDNUssageReport.Models.UseCaseModel = function (data) {
     this.requestsCached = parseInt(data[5]);
     this.requestsNotCached = parseInt(data[6]); 
 
-    this.getCachedPercentage = CDNUssageReport.Models.Abstract.getCachedPercentage;
+    this.getCachedPercentage = CDNUsageReport.Models.Abstract.getCachedPercentage;
 
-    this.isFullyCached = CDNUssageReport.Models.Abstract.isFullyCached;
+    this.isFullyCached = CDNUsageReport.Models.Abstract.isFullyCached;
 
-    this.getRequestCachePercentage = CDNUssageReport.Models.Abstract.getRequestCachePercentage;
+    this.getRequestCachePercentage = CDNUsageReport.Models.Abstract.getRequestCachePercentage;
 
-    this.isRequestFullyCached = CDNUssageReport.Models.Abstract.isRequestFullyCached;
+    this.isRequestFullyCached = CDNUsageReport.Models.Abstract.isRequestFullyCached;
 }
 
-CDNUssageReport.Models.Statistic = function (list) {
+CDNUsageReport.Models.Statistic = function (list) {
     this.resourceId = null;
     this.publisherId = null;
     this.edgeId = null;
@@ -137,12 +137,12 @@ CDNUssageReport.Models.Statistic = function (list) {
         this.edgeId = edgeId;
     }
 
-    this.getCachedPercentage = CDNUssageReport.Models.Abstract.getCachedPercentage;
+    this.getCachedPercentage = CDNUsageReport.Models.Abstract.getCachedPercentage;
 
-    this.isFullyCached = CDNUssageReport.Models.Abstract.isFullyCached;
+    this.isFullyCached = CDNUsageReport.Models.Abstract.isFullyCached;
 
-    this.getRequestCachePercentage = CDNUssageReport.Models.Abstract.getRequestCachePercentage;
+    this.getRequestCachePercentage = CDNUsageReport.Models.Abstract.getRequestCachePercentage;
 
-    this.isRequestFullyCached = CDNUssageReport.Models.Abstract.isRequestFullyCached;
+    this.isRequestFullyCached = CDNUsageReport.Models.Abstract.isRequestFullyCached;
 
 }
