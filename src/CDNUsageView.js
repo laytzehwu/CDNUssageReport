@@ -63,6 +63,11 @@ CDNUsageReport.Views.Menu = (function () {
         methods.setMenuPlace($bar);
     }
     
+    methods.setActive = function (section) {
+        cache.$itemHolder.find(".active").removeClass("active");
+        var $item = cache.$itemHolder.find("a[href='#" + section + "']").parent();
+        $item.addClass("active");
+    }
 
     methods.addItem = function (info) {
         if(!info) {
@@ -96,7 +101,8 @@ CDNUsageReport.Views.Menu = (function () {
            }
        },
        clear: methods.clear,
-       addItem: methods.addItem
+       addItem: methods.addItem,
+       setActive: methods.setActive
     };
 })();
 
