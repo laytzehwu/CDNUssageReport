@@ -41,6 +41,7 @@ section {
     display: table-cell;
     font-weight: normal;
     padding: 1em;
+    vertical-align: middle;
 }
 
 .grid-header .grid-cell {

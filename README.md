@@ -14,6 +14,8 @@
     Here is the only libraries used:
     <li>jQuery - It is only library used in feature.</li>
     <li>Jasmine - Unit test for Javascript</li>
+    <li>Chart.js - For chart purpose</li>
+    <li>Overlay.js - My telant make over library :)</li>
   </ol>
 </section>
 <section>

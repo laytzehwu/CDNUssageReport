@@ -106,7 +106,18 @@ CDNUsageReport.Views.Menu = (function () {
     };
 })();
 
+CDNUsageReport.Views.settings = {
+    pieChartHeight: 250,
+    pieChartWidth: 250,
+    cachedColor: "#46BFBD",
+    notCachedColor: "#F7464A",
+    cachedHilightColor: "#5AD3D1",
+    notCachedHilightColor: "#FF5A5E"
+};
+
+
 CDNUsageReport.Views.UssageView = (function () {
+        var settings = CDNUsageReport.Views.settings;
 	var defaultColumnsSetting = {	resource: true,
 					publisher: true,
 					edge: true,
@@ -191,6 +202,18 @@ CDNUsageReport.Views.UssageView = (function () {
 				$row.append($cell);
 			}
 
+                        if(option.detail) {
+				var $cell = $("<div class='grid-cell'></div>");
+				$cell.html(option.detail.label);
+                                if(option.detail.click) {
+                                    $cell.on("click", function (evt) {
+                                          option.detail.click(evt,useCase);
+                                    });
+                                }
+				$row.append($cell);
+                        }
+
+
 			return $row;
 		},
 		renderDetailDialog: function (useCase, option) {
@@ -201,6 +224,7 @@ CDNUsageReport.Views.UssageView = (function () {
 			var $table = $("<div class='grid'></div>");
 			if(option.columns.resource && useCase.resourceId) {
 				var $row = $("<div class='grid-row'></div>");
+				$row.append("<div class='grid-cell'></div>");
 				var $cell = $("<div class='grid-cell'></div>");
 				$cell.text(labels.resource);
 				$row.append($cell);
@@ -212,6 +236,7 @@ CDNUsageReport.Views.UssageView = (function () {
 
 			if(option.columns.publisher && useCase.publisherId) {
 				var $row = $("<div class='grid-row'></div>");
+				$row.append("<div class='grid-cell'></div>");
 				var $cell = $("<div class='grid-cell'></div>");
 				$cell.text(labels.publisher);
 				$row.append($cell);
@@ -223,6 +248,7 @@ CDNUsageReport.Views.UssageView = (function () {
 
 			if(option.columns.edge && useCase.edgeId) {
 				var $row = $("<div class='grid-row'></div>");
+				$row.append("<div class='grid-cell'></div>");
 				var $cell = $("<div class='grid-cell'></div>");
 				$cell.text(labels.edge);
 				$row.append($cell);
@@ -235,6 +261,10 @@ CDNUsageReport.Views.UssageView = (function () {
 			if(option.columns.bytesCached) {
 				var $row = $("<div class='grid-row'></div>");
 				var $cell = $("<div class='grid-cell'></div>");
+                                var $canvas = $("<canvas width='" + settings.pieChartWidth + "' height='" + settings.pieChartHeight + "' />");
+                                $cell.append($canvas);
+				$row.append($cell);
+				var $cell = $("<div class='grid-cell'></div>");
 				$cell.text(labels.bytesCached);
 				$row.append($cell);
 				var $cell = $("<div class='grid-cell'></div>");
@@ -246,6 +276,10 @@ CDNUsageReport.Views.UssageView = (function () {
 			if(option.columns.requestCached) {
 				var $row = $("<div class='grid-row'></div>");
 				var $cell = $("<div class='grid-cell'></div>");
+                                var $canvas = $("<canvas width='" + settings.pieChartWidth + "' height='" + settings.pieChartHeight + "' />");
+                                $cell.append($canvas);
+				$row.append($cell);
+				var $cell = $("<div class='grid-cell'></div>");
 				$cell.text(labels.requestCached);
 				$row.append($cell);
 				var $cell = $("<div class='grid-cell'></div>");
@@ -253,7 +287,6 @@ CDNUsageReport.Views.UssageView = (function () {
 				$row.append($cell);
 				$table.append($row);
 			}
-
 			return $table;
 		},
 		renderList: function (useCases, option) {
@@ -269,11 +302,103 @@ CDNUsageReport.Views.UssageView = (function () {
 			
 			var iLen = useCases.length;
 			for(var i=0;i<iLen;i++) {
-				var $row = this.renderRow(useCases[i]);
+				var $row = this.renderRow(useCases[i], option);
 				$grid.append($row);
 			}
 			return $grid;
 		}
 	};
+})();
+
+CDNUsageReport.Views.ChartsMaker = (function () {
+     var settings = CDNUsageReport.Views.settings;
+     var methods = {};
+     return {
+         createBytesCachedPie: function (canvas, statistic) {
+              var chartData = [
+                 {
+		    value: statistic.bytesCached,
+                    color: settings.cachedColor,
+                    highlight: settings.cachedHilightColor,
+                    label: "Bytes in cached"
+                 },
+                 {
+		    value: statistic.bytesNotCached,
+                    color: settings.notCachedColor,
+                    highlight: settings.notCachedHilightColor,
+                    label: "Bytes not in cached"
+                 }
+              ];
+              var cachedPie = new Chart(canvas.getContext("2d")).Pie(chartData);
+              return cachedPie
+         },
+         createRequestCachedPie: function (canvas, statistic) {
+              var chartData = [
+                 {
+		    value: statistic.requestsCached,
+                    color: settings.cachedColor,
+                    highlight: settings.cachedHilightColor,
+                    label: "Bytes in cached"
+                 },
+                 {
+		    value: statistic.requestsNotCached,
+                    color: settings.notCachedColor,
+                    highlight: settings.notCachedHilightColor,
+                    label: "Bytes not in cached"
+                 }
+              ];
+              var cachedPie = new Chart(canvas.getContext("2d")).Pie(chartData);
+              return cachedPie
+         },
+         createBarChart: function ($canvas, useCases, option) {
+              var option = option || {};
+              if(!option.labelAs) {
+                  option.labelAs = "resourceId";
+              }
+              var labels = [];
+              var bytesCached = [];
+              var reqCached = [];
+              var iLen = useCases.length;
+              for(var i=0;i<iLen; i++) {
+                  var useCase = useCases[i];
+                  var label = useCase.resourceId;
+                  switch(option.labelAs) {
+                      case "publisherId":
+                          label = useCase.publisherId;
+                          break;
+                      case "publisherId":
+                          label = useCase.edgeId;
+                          break;
+                  }
+                  labels.push(label);
+ 	          bytesCached.push(useCase.getCachedPercentage());
+ 	          reqCached.push(useCase.getRequestCachePercentage());
+              }
+              var data = {
+	          labels: labels,
+                  datasets: [
+                      {
+                          labels: "Bytes in cached",
+	                  fillColor: "rgba(220,220,220,0.5)",
+	                  strokeColor: "rgba(220,220,220,0.8)",
+	                  highlightFill: "rgba(220,220,220,0.75)",
+	                  highlightStroke: "rgba(220,220,220,1)",
+	                  data: bytesCached
+                      },
+                      {
+                          labels: "Bytes in cached",
+	                  fillColor: "rgba(151,187,205,0.5)",
+	                  strokeColor: "rgba(151,187,205,0.8)",
+	                  highlightFill: "rgba(151,187,205,0.75)",
+	                  highlightStroke: "rgba(151,187,205,1)",
+	                  data: reqCached
+                      }
+                  ]
+              };
+              $canvas.attr("height", 400);
+              $canvas.attr("width", 400);
+              return new Chart($canvas[0].getContext("2d")).Bar(data);
+         }
+     };
 })();
 
