@@ -3,6 +3,20 @@
  <p>This is not an actual software. The goal for this project to help proving some javascript app developing idea.</p>
 </section>
 <section>
+  <h2>About Demo</h2>
+  <p>If you run the demo under file protocol (Open index.html by File function in your browser), the ajax will be blocked by CSRF protection. Only FireFox allows ajax request in file protocol in my testing.</p>
+  <p>Run it in web server (exp Apache) under static folder, it is supported to most of the browser.</p>
+</section>
+<section>
+  <h2>Simple & Small</h2>
+  <p>In order to support most of the browser, I try to use less library. As the reason, I need do more code. </p>
+  <ol>
+    Here is the only libraries used:
+    <li>jQuery - It is only library used in feature.</li>
+    <li>Jasmine - Unit test for Javascript</li>
+  </ol>
+</section>
+<section>
   <h2>Dataflow</h2>
   <p>The usage report fetch data from backend API and make those data more visible and useful.</p>
   <p>It is design as Javascript app. The app retrieve the data when it is starting. Those data is cached in local browser, new data will be reloaded only while user refresh the page.</p>
@@ -55,8 +69,9 @@
   <h2>The story is not yet completed</h2>
   <p>It has taken me 3 days to develop this app after office hours. Although, I am tired but it is bring more fun to me. Some other useful idea came to my mind, I will do it later:</p>
   <ul>
-     <li>Filter - It only show all the row in one page. It will be more useful if some filter logic could be implemented.</li>
+     <li>Filter - It only show all the row in one page. It will be more useful if some filter logic could be implemented. Imagine you see the cache percentage by websites, users and edge servers.</li>
      <li>Pagination - This is my fist to build a frontend app but behave like supported by REST full API. My old pagination could not be used, a rapid pagination idea is already in my mind. More fun after it is done.</li>
      <li>Sort - All the sorting info has been tracked by URL parser. But I am really tired to finished. How cool is it? If user click on grid title and it sort without time leack!</li>
+     <li>Auto refresh - It does not make sence to have auto refresh with static data. It will be a useful monitoring tool when using data from backend API.</li>
   </ul>
 </section>
